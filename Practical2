@@ -1,0 +1,142 @@
+PRACTICAL 2: Packet Tracer - Configure AAA Authentication on Cisco 
+Routers.
+➢ OUTPUT:
+➢ PART A: Configure Local AAA Authentication for Console Access on 
+R1.
+I.
+STEP 1:
+R1 (Test connectivity):
+• en
+• config
+• line vty 0 4
+• password admin
+• login
+• en
+• router ospf 1
+• network 192.168.1.0 0.0.0.255 area 0
+• network 10.1.1.0 0.0.0.3 area 0
+R2 (Test connectivity):
+• en
+• config
+• line vty 0 4
+• password admin
+• login
+• en
+router ospf 2
+• network 192.168.2.0 0.0.0.255 area 0
+• network 10.1.1.0 0.0.0.3 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+R3 (Test connectivity):
+• en
+• config
+• line vty 0 4
+• password admin
+• login
+• en
+• router ospf 3
+• network 192.168.3.0 0.0.0.255 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+II.
+STEP 2:
+R1 :
+• en
+• config
+• R1(config)# username Admin1 secret admin1pa55
+• R1(config)# aaa new -model
+• R1(config)# aaa authentication login default local
+• R1(config)# line console 0 
+• R1(config-line)# login authentication default
+• end
+• exit
+R1 :
+• en
+• config
+• R1(config)# ip domain-name ccnasecurity.com
+• R1(config)# crypto key generate rsa
+• R1(config)# aaa authentication login SSH-LOGIN local
+• R1(config)# line vty 0 4 
+• R1(config-line)# login authentication SSH-LOGIN
+• R1(config-line)# transport input ssh
+• end
+• exit
+PC-A:
+• PC> ssh –l Admin1 192.168.1.1
+• Password: admin1pa55
+
+router ospf 2
+• network 192.168.2.0 0.0.0.255 area 0
+• network 10.1.1.0 0.0.0.3 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+R3 (Test connectivity):
+• en
+• config
+• line vty 0 4
+• password admin
+• login
+• en
+• router ospf 3
+• network 192.168.3.0 0.0.0.255 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+II.
+STEP 2:
+R1 :
+• en
+• config
+• R1(config)# username Admin1 secret admin1pa55
+• R1(config)# aaa new -model
+• R1(config)# aaa authentication login default local
+• R1(config)# line console 0 
+• R1(config-line)# login authentication default
+• end
+• exit
+R1 :
+• en
+• config
+• R1(config)# ip domain-name ccnasecurity.com
+• R1(config)# crypto key generate rsa
+• R1(config)# aaa authentication login SSH-LOGIN local
+• R1(config)# line vty 0 4 
+• R1(config-line)# login authentication SSH-LOGIN
+• R1(config-line)# transport input ssh
+• end
+• exit
+PC-A:
+• PC> ssh –l Admin1 192.168.1.1
+• Password: admin1pa55
+
+PART C: Configure Server-Based AAA Authentication Using RADIUS 
+on R3.
+I.
+STEP 1:
+R3:
+• R3 → Radius → Services → AAA → on
+• Client name : R3
+• Client ip : 192.168.3.1
+• Secret : radiuspa55
+• Server type : radius
+II.
+STEP 2:
+R3 (CLI):
+• en
+• config
+• R3(config)# username Admin3 secret admin3pa55
+III.
+STEP 3:
+R3 (CLI):
+• R3(config)# aaa new-model 
+• R3(config)# aaa authentication login default group radius local
+IV.
+STEP 4:
+R3 (CLI):
+• R3(config)# line console 0
+• R3(config-line)# login authentication local
+V.
+STEP 5:
+R3 (CLI):
+• end
+• exit
+VI.
+STEP 6:
+R3:
+• Username: Admin3 
+• Password: admin3pa55
