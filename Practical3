@@ -1,0 +1,123 @@
+PRACTICAL 3: Configuring Extended ACLs - Scenario 1.
+➢ OUTPUT:
+➢ PART A: Configure, Apply and Verify an Extended Numbered ACL.
+I.
+STEP 1:
+ R1 (Configure an ACL to permit FTP and ICMP):
+• R1(config)# access -list 100 permit tcp 172.22.34.64 0.0.0.31 host 172.22.34.62 
+eq ftp
+• R1(config)# access -list 100 permit icmp 172.22.34.64 0.0.0.31 host 
+172.22.34.62
+II.
+STEP 2:
+R1 (Apply the ACL on the correct interface to filter traffic):
+• R1 (config)# interface gigabitEthernet 0/0 
+• R1(config-if)# ip access- group 100 in
+III.
+STEP 3:
+PC1 to server ping (Verify the ACL implementation):
+• username: cisco
+• password: cisco
+• PC> ftp 172.22.34.62
+• ftp> quit  server
+PART B: Configure, Apply and Verify an Extended Named ACL.
+I.
+STEP 1:
+R1 (Configure an ACL to permit HTTP access and ICMP):
+• R1(config)# ip access-list extended HTTP_ONLY
+• R1(config-ext-nacl)# permit tcp 172.22.34.96 0.0.0.15 host 172.22.34.62 eq 
+www
+• R1(config-ext-nacl)# permit icmp 172.22.34.96 0.0.0.15 host 172.22.34.62
+II.
+STEP 2:
+R1 (Apply the ACL on the correct interface to filter traffic):
+• R1(config)# interface gigabitEthernet 0/1 
+• R1(config-if)# ip access-group HTTP_ONLY in
+III.
+STEP 3:
+PC2 to server ping (Verify the ACL implementation):
+• PC2 → desktop → web browser
+• URL (type) : http://172.22.34.62/index.html
+
+PRACTICAL 3: Configuring Extended ACLs - Scenario 2.
+➢ OUTPUT:
+➢ PART A: Configure, Apply and Verify an Extended Numbered ACL.
+I.
+STEP 1:
+Switch A (CLI):
+• exit
+• exit
+• en
+• config
+• ip address 10.101.117.50 255.255.255.248
+• no shutdown
+• ip default-gateway 10.101.117.49
+Switch B (CLI):
+• exit
+• exit
+• en
+• config
+• ip address 10.101.117.34 255.255.255.240
+• no shutdown
+• ip default-gateway 10.101.117.33
+Switch C (CLI):
+• exit
+• exit
+• en
+config
+• ip address 10.101.117.2 255.255.255.224
+• no shutdown
+• ip default-gateway 10.101.117.1
+II.
+STEP 2:
+Switch A (CLI):
+• en
+• config
+• enable secret enpa55
+• line console 0
+• password conpa55
+• login
+Switch B (CLI):
+• en
+• config
+• enable secret enpa55
+• line console 0
+• password conpa55
+• login
+Switch C (CLI):
+• en
+• config
+• enable secret enpa55
+• line console 0
+• password conpa55
+• login
+III.
+STEP 3:
+Switch A (CLI):
+• ip domain-name ccnasecurity.com
+• username Admin secret adminpa55
+• line vty 0 4
+• login local
+• crypto key generate rsa
+• 1024
+Switch B (CLI):
+• ip domain-name ccnasecurity.com
+• username Admin secret adminpa55
+• line vty 0 4
+• login local
+• crypto key generate rsa
+• 1024
+Switch C (CLI):
+• ip domain-name ccnasecurity.com
+• username Admin secret adminpa55
+• line vty 0 4
+• login local
+• crypto key generate rsa
+• 1024
+IV.
+STEP 4:
+R1 (CLI):
+• access-list 199 permit tcp 10.101.117.32 0.0.0.15 10.101.117.0 0.0.0.31 eq 22
+• access-list 199 permit icmp 10.101.117.32 0.0.0.15 10.101.117.0 0.0.0.31
+• int gigabitEthernet 0/2
+• ip access-group 199 out
