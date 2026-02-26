@@ -1,0 +1,89 @@
+PRACTICAL 1: Packet Tracer - Configure Cisco Routers for Syslog,
+NTP, and SSH Operations.
+➢ OUTPUT:
+➢ PART A: Configure OSPF MD5 Authentication.
+I.
+STEP 1: 
+R1 (CLI):
+• en
+• config
+• network 192.168.1.0 0.0.0.255 area 0
+• network 10.1.1.0 0.0.0.3 area 0
+R2 (CLI):
+• en
+• config
+• network 10.1.1.0 0.0.0.3 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+R3 (CLI):
+• en
+• config
+• network 192.168.3.0 0.0.0.255 area 0
+• network 10.2.2.0 0.0.0.3 area 0
+II.
+STEP 2:
+R1 (MD5 authentication):
+• R1(config)# router ospf 1
+• R1(config -router)# area 0 authentication message -digest 
+R2 (MD5 authentication):
+• R1(config)# router ospf 2
+• R1(config -router)# area 0 authentication message -digest 
+R3(MD5 authentication):
+• R1(config)# router ospf 3
+• R1(config -router)# area 0 authentication message -digest 
+III.
+STEP 3:
+R1 (Configure MD5 key):
+• R1(config)# interface s0/1/0 
+• R1(config -if)# ip ospf message -digest - key 1 md5 MD5pa55
+R2 (Configure MD5 key):
+• R2(config)# interface s0/1/0 
+• R2(config -if)# ip ospf message- digest-key 1 md5 MD5pa55
+• R2(config -if)# interface s0/1/1 
+• R2(config -if)# ip ospf message- digest-key 1 md5 MD5pa55
+R3 (Configure MD5 key):
+• R3(config)# interface s0/1/0
+• R3(config -if)# ip ospf message-digest-key 1 md5 MD5pa55
+IV.
+STEP 4:
+R1 (Verify MD5 authentication):
+• show ip ospf interface
+R2 (Verify MD5 authentication):
+• show ip ospf interface
+R3 (Verify MD5 authentication):
+• show ip ospf interface
+
+PART B: Configure NTP
+I.
+STEP 1:
+• PC-A → Services → NTP → enable
+• Key : 1 ; Password: NTPpa55
+II.
+STEP 2:
+R1 (Configure as NTP clients):
+• R1(config)# ntp server 192.168.1.5
+R2 (Configure as NTP clients):
+• R2(config)# ntp server 192.168.1.5
+R3 (Configure as NTP clients):
+• R3(config)# ntp server 192.168.1.5
+III.
+STEP 3:
+R1 (Configure routers to update hardware clock):
+• R1(config)# ntp update-calendar
+R2 (Configure routers to update hardware clock):
+• R2(config)# ntp update-calendar
+R3 (Configure routers to update hardware clock):
+• R3(config)# ntp update-calendar
+IV.
+STEP 4:
+R1 (Configure NTP authentication on router):
+• R1(config)# ntp authenticate 
+• R1(config)# ntp trusted-key 1 
+• R1(config)# ntp authentication-key 1 md5 NTPpa55
+R2 (Configure NTP authentication on router):
+• R2(config)# ntp authenticate 
+• R2(config)# ntp trusted-key 1 
+• R2(config)# ntp authentication-key 1 md5 NTPpa55
+R3 (Configure NTP authentication on router):
+• R3(config)# ntp authenticate 
+• R3(config)# ntp trusted-key 1 
+• R3(config)# ntp authentication-key 1 md5 NTPpa55
