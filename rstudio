@@ -1,0 +1,108 @@
+AIM: To perform clustering algo on given dataset using R.
+➢ CODING:
+Practical 5:
+# without library
+data(iris)
+data <- iris[, 1:4]
+head(data)
+summary(data)
+data_scaled <- scale(data)
+set.seed(123)
+kmeans_result <- kmeans(data_scaled, centers = 3, nstart = 25)
+kmeans_result$cluster
+kmeans_result$centers
+kmeans_result$withinss
+final_data <- data
+final_data$cluster <- as.factor(kmeans_result$cluster)
+head(final_data)
+plot(data_scaled[,1], data_scaled[,2],
+ col = kmeans_result$cluster,
+ pch = 19,
+ xlab = "Sepal length",
+ ylab = "Sepal width",
+ main = "k-means Clustering")
+points(kmeans_result$centers[,1],
+ kmeans_result$centers[,2],
+ col = 1:3,
+ pch = 8, cex = 2)
+
+PRACTICAL NO: 6
+AIM: To perform logistic regression on given data set using R.
+➢ CODING:
+Practical 6: 
+data <- data.frame(Hours = c(1,2,3,4,5,6,7,8),
+ Result = c(0,0,0,0,1,1,1,1))
+print(data)
+model <- glm(Result ~ Hours, data = data, family = binomial)
+summary(model)
+probabilites <- predict(model, type = "response")
+print(probabilites)
+predicted_class <- ifelse(probabilites > 0.5, 1, 0)
+print(predicted_class)
+data$predicted_Prob <- probabilites
+data$predicted_Class <- predicted_class
+print(data)
+plot(data$Hours, data$Result,
+ xlab = "Hours studied",
+ ylab = "Result",
+ main = "logistic Regression",
+ pch = 16,
+ col = "blue")
+curve(predict(model, data.frame(Hours = x), type = "response"),
+ add = TRUE,
+ col = "red",
+ lwd = 2)
+
+PRACTICAL NO: 4
+AIM: To perform classification algorithm on a given data set in R.
+➢ CODING:
+Practical 4:
+data(iris)
+head(iris)
+str(iris)
+# install.packages("rpart")
+library(rpart)
+set.seed(1)
+index <- sample(1:nrow(iris), 0.7 * nrow(iris))
+train <- iris[index, ]
+test <- iris[-index, ]
+model <- rpart(Species ~ Sepal.Length + Sepal.Width + Petal.Width,
+ data = train,
+ method = "class")
+result <- predict(model, test, type = "class")
+table(result, test$Species)
+accuracy <- sum(result == test$Species) / nrow(test)
+accuracy
+
+PRACTICAL NO: 7
+AIM: To perform linear regression on given data set using R.
+➢ CODING:
+# Create sample data
+data <- data.frame(
+ Hours = c(1, 2, 3, 4, 5, 6, 7, 8),
+ Marks = c(35, 40, 50, 55, 65, 70, 75, 85)
+)
+print(data)
+# Build Linear Regression model
+model <- lm(Marks ~ Hours, data = data)
+# View model summary
+summary(model)
+# Predict values
+predicted_values <- predict(model)
+print(predicted_values)
+# Add predicted values to dataset
+data$Predicted_Marks <- predicted_values
+print(data)
+# Plot original data
+plot(data$Hours, data$Marks,
+ xlab = "Hours Studied",
+ ylab = "Marks",
+ main = "Linear Regression",
+ col = "blue",
+ pch = 16)
+# Add regression line
+abline(model, col = "red", lwd = 2)
+
+
+
+
